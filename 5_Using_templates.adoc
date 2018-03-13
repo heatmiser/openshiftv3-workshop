@@ -2,35 +2,34 @@
 Using Templates
 ~~~~~~~~~~~~~~~
 
-In this lab exercise we will learn how to use OpenShift Web Console to
+In this lab exercise we will learn how to utilize the OpenShift Web Console to
 spin up a MySQL database using templates. We will then add a frontend
-PHP application that accesses this database using the service exposed by
-the database. We will provide a route (a URL) to access the frontend
-application from a browser.
+PHP application that accesses this database via the service exposed by
+the database. We will provide a route (a URL) to enable external access to the frontend
+application.
 
 *Step 1: Create a Project*
 
-Based on the experience gained from the previous exercise, log into the
+Based on the experience gained from the previous exercise(s), log into the
 OpenShift Web Console. You will see the list of Projects.
 
-Using the *New Project* button, create a new project. We will call it
-*consoleproject-UserName*. Replace by your username to make this project
-unique. Type in a *Display Name* and *Description* of your choice.
+Using the *New Project* button, create a new project. Name the project
+*consoleproject-UserName*, replacing *UserName* with your assigned username to make this project
+unique. Enter a *Display Name* and *Description* of your choice.
 
-Press the *Create* button to complete the project creation from the Web
+Click the *Create* button to complete the project creation from the Web
 Console. This will accomplish the same job as `oc new-project` from CLI.
 
 *Step 2: Create a MYSQL database using the template*
 
-Click on *Add to Project -> Browse Catolog* button and you will be taken to select an
-image or template. You will see the application create screen as shown
-below:
+Click on the *Add to Project -> Browse Catolog* button and you will be taken to the application creation screen shown
+below, where you can select an image or template.
 
 image:images/template-add-to-project.png[image]
 
-Scroll down and click on *Data Stores* session. Find *MySQL (Ephemeral)*
-template from the list and click *Select*. You will also notice *MySQL
-(Persistent)* template. But we will address that in a different lab
+Scroll down and click on the *Data Stores* session. Find the *MySQL (Ephemeral)*
+template from the list and click *Select*. Also notice the *MySQL
+(Persistent)* template...we will address persistent templates a little later in a different lab
 exercise.
 
 image:images/mysql_ephemeral_template.png[image]
@@ -59,12 +58,12 @@ Click *Go to overview*.
 
 image:images/mysql_pod_on_proj_details.png[image]
 
-It will take you back to the project overview page and soon you will see
+You will be taken back to the project overview page and soon you will see
 an image of a running pod.
 
 image:images/mysql_pod_on_proj_overview.png[image]
 
-*Step 3: Add a PHP frontend to talk to this database*
+*Step 3: Add a PHP frontend to connect to this database*
 
 In this step we will add a PHP frontend application that talks to
 recently created database. The code is available on github at
@@ -100,14 +99,13 @@ In the next section add a label:
 * app=pricelist
 ....
 
-Click *Create* to add this frontend application to talk to the database.
+Click *Create* to add this frontend application and connect it with the database.
 
 image:images/cakephp_confirm.png[image]
 
 Click *Continue to overview*.
 
-You will be taken back to the Project Overview page and you will start
-seeing that a new service is now available and exposed as a route. Since
+You will be taken back to the Project Overview page where eventually a new service entry should appear and exposed as a route. Since
 you labeled both frontend web and backend db as `app=pricelist` it will
 show as one application
 
@@ -215,12 +213,12 @@ mysql> SELECT * FROM products;
 mysql> \q
 ....
 
-In this lab exercise you have seen a complete web application deployed
-using OpenShift templates in two parts. First we deployed the MySQL
-database. We added data manually by getting into the pod. Then we added
-the frontend code that was built using the OpenShift S2I process. You
-configured this frontend application to access the database using a
-service, in this case, the ``mysql'' service. The frontend is made
-accessible using a route for which you gave a URL.
+In this lab exercise, we deployed a complete web application 
+using OpenShift templates via a two step process. First, we deployed the MySQL
+database. We added data manually via direct interaction within the pod. Then we added
+the frontend code that was built using the OpenShift S2I process. The frontend application was
+configured to access the database using a
+service, in this case, the ``mysql'' service. Fianlly, the frontend was made
+accessible by creating a route for which a URL definition was provided.
 
 link:0_toc.adoc[Table Of Contents]
