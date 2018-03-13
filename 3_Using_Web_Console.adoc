@@ -1,11 +1,11 @@
 [[using-web-console]]
-Using Web Console
-~~~~~~~~~~~~~~~~~
+Using the Web Console
+~~~~~~~~~~~~~~~~~~~~~
 
 In this lab exercise, we will review the OpenShift Web Console.
 
-Type in the master public URL provided by your instructor in a browser.
-Use `<master public URL>:<port>`. You will be directed to an OpenShift
+Enter the master public URL provided by your instructor in a browser.
+Use `<master public URL>:<port>`. You will be directed to the OpenShift
 login page.
 
 *Note*: Your browser may complain about the server’s security
@@ -16,47 +16,48 @@ image:images/login.png[image]
 
 Key in the username and password provided by the instructor. You will
 see the list of projects now. Note the project you created in the last
-lab exercise is shown here.
+lab exercise `mycliproject-UserName` is displayed here.
 
 image:images/projects_list.png[image]
 
 Also note the *New Project* button which allows you to create a new
 project from Web Console.
 
-Now click on the CLI Project to view the details. OpenShift takes you by
-default to the *Overview* page and shows you a graphic representation of
+Click on the `mycliproject-UserName` CLI Project to view the details. OpenShift takes you by
+default to the *Overview* page and displays a graphic representation of
 the application that is deployed here. You can see that a single pod is
-running and is front ended by a service. Note the route that you
-configured for this service is also shown. You will also see the *Add to
-Project* button on the top. This can be used to create new application
-from Web Console inside this project.
+running and is front-ended by a service. Note the route that you
+configured for this service is also displayed. Also notice the *Add to
+Project* button at the top, which can be used to create a new application
+from the Web Console inside this project.
 
 image:images/project_details.png[image]
 
-Select *Builds* under *Builds* tab, you will see all the build
-configurations. Click onto each build configuration and select the
-*Configuration* tab, we will be able to view all the build details.
+Select *Builds* under the *Builds* tab. All of the build
+configurations will be displayed. Click into each build configuration and select the
+*Configuration* tab, where you will be able to view all of the build details.
 
 image:images/project_build_details.png[image]
 
-Select *Pods* under *Applications* tab, you will find a running pod that
-is running your application image. Note that it also tells you the node
-on which the pod is running and other details about this pod. You will
-also see the build pod that had succeeded.
+Select *Pods* under the *Applications* tab. Here you will find a running pod that
+is executing your application image. Note that it also tells you the node
+on which the pod is running and other details about this pod. You should
+also see the build pod that has succeeded.
 
 image:images/project_pods.png[image]
 
-Click onto running pod, it shows the details on the pod. In addition,
-metrics, logs and terminal also available for monitoring.
+Click into the running pod. Details for the pod will be displayed. In addition,
+metrics, logs and the ability to launch a terminal session into the running pod
+are all available for monitoring and troubleshooting purposes.
 
 image:images/project_pod_details.png[image]
 
-Click on *Terminal* tab, you will be able to access the pod from web
-console.
+Click on the *Terminal* tab, and access the pod from web console. Execute the `exit`
+command within the terminal session when complete.
 
 image:images/terminal_view.png[image]
 
-If you click onto the *Metrics* tab under Pod and get an error viewing
+If you click into the *Metrics* tab under Pod and get an error viewing
 metrics on the browser, please do the following:
 
 1.  Open https://hawkular.<>/hawkular/metrics from a new tab on the same
@@ -66,14 +67,14 @@ broswer
 4.  Refresh the browser where you login at OpenShift console.
 
 Click *Builds* on left menu and select *Builds*. Select the build name
-*time* and then click on *Configuration* tab. Note there are webhook
+*time* and then click on the *Configuration* tab. Note there are webhook
 URLs. We will use them in a later lab exercise. You can start a build
 from the Web Console by pressing the *Start Build* button in the right
-top corner. It also gives you a command to start the build from CLI.
+top corner. It also provides a command to start the build from CLI.
 
 image:images/project_build_configuration.png[image]
 
-* Select *Services* under *Applications* tab, you will find the service
+* Select *Services* under the *Applications* tab, you will find the service
 created for your application. Click onto one of the services, it shows
 all the details about the service along with the option to expose it as
 a route.
