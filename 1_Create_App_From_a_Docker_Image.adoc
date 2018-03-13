@@ -94,7 +94,7 @@ welcome-1-dkyyq   1/1       Running   0          56s
 OpenShift also spins up a service for this application. Execute the
 command `oc get services` to view the list of services in the project. *Note*: 
 `svc` is short hand for `service` so you can alternately use the command
-`oc get svc`.
+`oc get svc`
 
 ....
 $ oc get services
