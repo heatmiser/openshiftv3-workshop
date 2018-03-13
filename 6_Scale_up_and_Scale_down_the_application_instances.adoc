@@ -1,17 +1,15 @@
 [[scale-up-and-scale-down-and-idle-the-application-instances]]
-Scale up and Scale down and Idle the application instances
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Scale up, Scale down and Idle the application instances
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this exercise we will learn how to scale our application. OpenShift
-has the capability to scale your application and make sure that many
-instances are always running.
+In this exercise, we will learn how to scale our application. OpenShift
+has the capability to scale an application and make sure that many
+instances are always running and available.
 
 *Step 1: Switch to an existing project*
 
-For this exercise, we will be using an already running application. We
-will be using the `mycliproject-UserName` that you created in the
-previous labs. Make sure you are switched to that project by using the
-`oc project` command and *remember* to substitute UserName.
+For this exercise, we will be using the `mycliproject-UserName` created in a previous lab. Make sure you are switched to that project by using the
+`oc project` command and *remember* to substitute in your assigned username for *UserName*.
 
 ....
 $ oc project mycliproject-UserName
@@ -106,14 +104,14 @@ status:
   updatedReplicas: 1
 ....
 
-Note that the `replicas:` is set to `1`. This tells OpenShift that when
+Note that `replicas:` is set to `1`. This tells OpenShift that when
 this application deploys, make sure that there is 1 instance.
 
 The `replicationController` mirrors this configuration initially; the
-`replicationController` (or `rc`) will ensure that there is always the
-set number of instances always running.
+`replicationController` (or `rc`) will ensure that specified number of instances
+will always be running.
 
-To view the `rc` for your application first get the current pod running.
+To view the `rc` for your application, first get the current pod running.
 
 ....
 oc get pods
@@ -123,8 +121,8 @@ time-1-45jtc   1/1       Running     0          2h
 time-1-build   0/1       Completed   0          2h
 ....
 
-This shows that the build `time-1` is running in pod `45jtc`. Let us
-view the `rc` on this build.
+The above output shows that the build `time-1` is running in pod `45jtc`. Let's
+view the `rc` for this build...
 
 ....
 $ oc get rc/time-1
@@ -133,35 +131,33 @@ NAME      DESIRED   CURRENT   AGE
 time-1    1         1         2h
 ....
 
-*Note:* You can change the number of replicas in `DeploymentConfig` or
+*Note:* The number of replicas can be changed in the `DeploymentConfig` or
 the `ReplicationController`.
 
-However note that if you change the `deploymentConfig` it applies to
-your application. This means, even if you delete the current replication
-controller, the new one that gets created will be assigned the REPLICAS
-value based on what is set for DC. If you change it on the Replication
-Controller, the application will scale up. But if you happen to delete
-the current replication controller for some reason, you will loose that
-setting.
+However, understand that if you change the `deploymentConfig` it applies to
+the associated application. This means, that even if you delete the current replication
+controller, the new replication controller that gets created will be assigned the REPLICAS
+value based on what is set for the `deploymentConfig`. If you raise the number of desired replicas for the Replication
+Controller, the application will scale up. But if, for whatever reason, the current replication controller happens to be deleted, then the newly increased replica setting while be lost.
 
 *Step 3: Scale Application*
 
-To scale your application we will edit the `deploymentConfig` to 3.
+To scale the application, edit the `deploymentConfig`.
 
-Open your browser to the Overview page and note you only have one
+In the browser, navigate to the `time` Overview page and note that there is only one
 instance running.
 
 image:images/scale_updown_overview.png[image]
 
-Now scale your application using the `oc scale` command (remembering to
-specify the `dc`)
+Now scale the `time` application using the `oc scale` command (remembering to
+specify the `dc`):
 
 ....
 $ oc scale --replicas=3 dc/time
 deploymentconfig "time" scaled
 ....
 
-If you look at the web console and you will see that there are 3
+Back on the web console, we should now see that there are 3
 instances running now
 image:images/scale_updown_overview_scaled.png[image]
 
@@ -170,7 +166,7 @@ the project overview page and clicking twice on
 image:images/scale_up.jpg[image] right next to the pod count circle to
 add 2 more pods.
 
-On the command line, see how many pods you are running now:
+Over on the command line, query the number of pods currently running:
 
 ....
 $ oc get pods
@@ -195,7 +191,7 @@ time-1    3         3         3h
 
 *Step 4: Idling the application*
 
-Run the following command to find the available endpoints
+Execute the following command to list the available endpoints:
 
 ....
 $ oc get endpoints
@@ -203,10 +199,10 @@ NAME      ENDPOINTS                                            AGE
 time      10.128.0.33:8080,10.129.0.30:8080,10.129.2.27:8080   15m
 ....
 
-Note that the name of the endpoints is `time` and there are three ips
-addresses for the three pods.
+Note that the name for the endpoints is `time` and there are three IP
+addresses defined, one for each of the three pods.
 
-Run the `oc idle endpoints/time` command to idle the application
+Run the `oc idle endpoints/time` command to idle the application...
 
 ....
 $ oc idle endpoints/time
@@ -214,14 +210,12 @@ Marked service mycliproject-veer/time to unidle resource DeploymentConfig myclip
 Idled DeploymentConfig mycliproject-veer/time (dry run)
 ....
 
-Go back to the webconsole. You will notice that the pods show up as
+Go back to the webconsole. Notice that the pods show up as
 idled.
 
 image:images/idled_pods.jpeg[image]
 
-At this point the application is idled, the pods are not running and no
-resources are being used by the application. This doesn’t mean that the
-application is deleted. The current state is just saved.. that’s all.
+At this point the application is idled, the are not any pods running and the application is not utilizing any resources. This does not mean that the application is deleted. The current state is just saved.. that’s all.
 
 *Step 6: Reactivate your application* Now click on the application route
 URL or access the application via curl.
@@ -230,14 +224,13 @@ Note that it takes a little while for the application to respond. This
 is because pods are spinning up again. You can notice that in the web
 console.
 
-In a little while the output comes up and your application would be up
-with 3 pods.
+In a brief moment, the application will be up and running with 3 pods.
 
-So, as soon as the user accesses the application, it comes up!!!
+As soon as the application is accessed, it comes up!!!
 
 *Step 7: Scaling Down*
 
-Scaling down is the same procedure as scaling up. Use the `oc scale`
+Scaling down involves a similar procedure as scaling up does. Use the `oc scale`
 command on the `time` application `dc` setting.
 
 ....
@@ -246,10 +239,10 @@ oc scale --replicas=1 dc/time
 deploymentconfig "time" scaled
 ....
 
-Alternately, you can go to project overview page and click on
+Alternately, you can go to the project overview page and click on
 image:images/scale_down.jpg[image] twice to remove 2 running pods.
 
-Congratulations!! In this exercise you have learned about scaling and
-how to scale up/down your application on OpenShift!
+Congratulations!! In this exercise we have covered scaling and stepped through the process of
+how to scale up/down an application on OpenShift!
 
 link:0_toc.adoc[Table Of Contents]
