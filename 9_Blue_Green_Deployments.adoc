@@ -6,23 +6,22 @@ The purpose of this short lab is to demonstrate how simple it is to
 implement Blue-Green Deployments in OpenShift v3.
 
 ----
-Blue-green deployment is a release strategy that can be utilized by
-developers for deploying software in a production environment. Blue can
-be one particular production environment whereas green can define an
-identical production environment. Under blue-green deployment strategy,
-software developers are able to minimize downtime and reduce risk.
+Blue-Green deployment is a release strategy for deploying software in a production environment.
+Blue would be one particular production environment version whereas green is an identical production
+environment, save for the version of the application code base that is deployed. Utilizing a Blue-Green
+deployment strategy can minimize production application downtime and reduce risk overall.
 https://en.wikipedia.org/wiki/User:Nuqing/Blue-green_deployment[1*]
 ----
 
 In this Lab, we will be:
 
-* Deploying two versions of the same application. The first version will
-display a blue rectangle.
+* Deploying two versions of the same application. First version will
+display a blue rectangle, second version a green rectangle.
 * Create a FQDN that can be used to expose the applications.
-* We will first expose the first application.
-* We will also create another version of this application in the same
-project that displays a green rectangle.
-* We will then switch the FQDN to from the first application (blue) to
+* Initially expose the first application.
+* Create a second version of the application in the same
+project.
+* Switch the FQDN from the first application (blue) to
 the second application (green).
 
 image:images/blue_green_deployment.png[image]
@@ -33,7 +32,7 @@ Part I
 
 *Step 1: Create a new project*
 
-*Remember* to substitute the username
+*Remember* to replace *UserName* with the username assigned to you in the commands below.
 
 ....
 $ oc new-project bluegreen-UserName --display-name="Blue Green Project" --description="Blue Green Project"
@@ -53,13 +52,13 @@ php
 
 *Step 3: Create an application*
 
-We will be using a sample application that displays a blue or green
+We will be working with a sample application that displays a blue or green
 rectangle. The sample app can be browsed at
 https://github.com/RedHatWorkshops/bluegreen
 
-We will be using an env var in order to change the color of the box; but
-in practice you would use a different branch for each version of the
-code. (E.g. v1 branch and v2 branch)
+In this lab, an environment variable is utilized to change the color of the box; however
+in practice, a different branch for each version of the
+code is typically deployed. (E.g. v1 branch and v2 branch)
 
 ....
 $ oc new-app --image-stream=php --code=https://github.com/RedHatWorkshops/bluegreen --env COLOR=blue --name=blue
@@ -74,13 +73,13 @@ NAME      TYPE      FROM          STATUS     STARTED              DURATION
 blue-1    Source    Git@afdc492   Complete   About a minute ago   1m8s
 ....
 
-Using the build name of the recently created application run:
+Using the build name (listed above) of the recently created application, run:
 
 ....
 $ oc logs build/blue-1
 ....
 
-Once the build finishes you should see something similar to:
+Once the build finishes, scan the resulting output until the image push is succesful:
 
 ....
 ...
@@ -108,8 +107,8 @@ blue-1-build   0/1       Completed    0          4m
 blue-1-ruyrt   1/1       Running      0          19s
 ....
 
-Notice that the build pod has exited and you now have a single instance
-of the application running under one single pod.
+Notice that the build pod has exited and a single instance
+of the application is running under one pod.
 
 This application displays a blue square.
 
@@ -121,7 +120,7 @@ $ oc get service
 
 *Step 7: Create a route for the application*
 
-*Remember* to substitute the username. Expose the service:
+*Don't forget* to replace *UserName* with the username assigned to you. Expose the service:
 
 ....
 $ oc expose service blue --hostname=bluegreen.UserName.<<DomainNameSuffix>> --name=bluegreen
@@ -138,33 +137,32 @@ something similar to:
 
 image:images/blue_deployment.jpeg[image]
 
-At this point you have deployed an application that displays for
-illustration purposes a blue rectangle for version 1.
+At this point, for illustration purposes, you have deployed an application that displays  a blue
+rectangle for version 1.
 
 [[part-ii]]
 Part II
 ~~~~~~~
 
-In this part, we will:
+In this portion of the lab, we will:
 
-* Deploy a new version of this application (Same one as before with a
-very small change)
+* Deploy a new version of this application
 * Point the previously created FQDN (route) to the new service that will
-be created as part of the new application creation process.
+be defined as part of the new application creation process.
 
 image:images/blue_green_active_green.png[image]
 
 *Step 1: Create new version of the application*
 
-Create a new application the same way as you did above in Part I. Make
-sure to name the application as `green' this time.
+Create a new application following the same steps as above in Part I. However, in this case,
+name the application `green' instead of 'blue'.
 
 ....
 $ oc new-app --image-stream=php --code=https://github.com/RedHatWorkshops/bluegreen --env COLOR=green --name=green
 ....
 
 * Wait until the application is built and deployed. You should now see
-two services if you run:
+two services, execute the command `oc get service`:
 
 ....
 $ oc get service
@@ -174,10 +172,8 @@ blue      172.30.2.161     <none>        8080/TCP   24m
 green     172.30.136.184   <none>        8080/TCP   1m
 ....
 
-* Edit the previously created route and change the `service` name (from
-`blue` to `green`), all the way at the bottom to the new service that
-was just created. You are essentially still using the FQDN you had
-previously created. However, that route will now point to a different
+* Modify the previously created route to point to the newly created service by changing the `Service` name from `blue` to `green` (at the bottom, under kind: Service). You are essentially still using the FQDN you had
+previously created, however, that route will now point to a different
 (green) service.
 
 ....
@@ -211,22 +207,23 @@ $ oc get route
 ....
 
 * Copy the HOST/PORT and paste it in your browser.
-* You should now see the new version of the recently deployed
-application with a green rectangle.
+* The new version of the recently deployed
+application is displayed: a green rectangle.
 
 [[part-iii]]
 Part III
 ~~~~~~~
 
-You can route traffic to both services. This is also known as "cannary in a colemine". 
+You can route traffic to both services. This is what is typically referred to as a "canary deployment". 
 
 *Step 1: Edit Your Route*
-Using the lefthand side navigation; click on *Applications -> Routes*. This will 
+
+Using the left-hand side navigation; click on *Applications -> Routes*. This will 
 bring you to the `Route` overview page.
 
 image:images/bg-routes-page.png[image]
 
-Here, click on the  `bluegreen` route. The page after will display the current configuration.
+Here, click on the  `bluegreen` route. The current route configuration will be displayed.
 On the upper right hand side, click on *Actions -> Edit*. You should see a page similar to
 this one.
 
@@ -236,8 +233,7 @@ Next, tick on `Split traffic across multiple services`
 
 image:images/bg-slipt-traffic.png[image]
 
-Here, set the weight to 50% on blue and 50% on green. This will make it to where half the
-traffic will go to the green application and half to the blue application.
+Set the weight to 80% on blue and 20% on green. The majority of the traffic will be passed to the green application, with the rest passed to the blue application.
 
 image:images/bg-5050-split.png[image]
 
