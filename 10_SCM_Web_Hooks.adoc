@@ -2,15 +2,14 @@
 SCM Web Hooks
 ~~~~~~~~~~~~~
 
-OpenShift offers several mechanisms to trigger the automatic deployment
-of applications. In this Lab, we will demonstrate the deployment of a
-very simple application via a GitHub Web Hook trigger.
+OpenShift offers several mechanisms for triggering the automatic deployment
+of applications. In this Lab, we will demonstrate the deployment of an application via a GitHub Web Hook trigger.
 
 [[part-i]]
 Part I
 ~~~~~~
 
-In Part I of the Lab we will:
+In this portion of the Lab we will:
 
 * Create a new project.
 * Deploy an application using a source to image strategy.
@@ -18,7 +17,7 @@ In Part I of the Lab we will:
 
 *Step 1: Create new project*
 
-*Remember* to substitute the UserName
+*Remember* to replace *UserName* with the username assigned to you in the commands below.
 
 ....
 $ oc new-project scm-web-hooks-UserName --display-name="Test WebHooks"
@@ -26,15 +25,15 @@ $ oc new-project scm-web-hooks-UserName --display-name="Test WebHooks"
 
 *Step 2: Create new application*
 
-* We will use the forked repository from the previous lab.
+* We will fork the repository from the previous lab on GitHub.
 
-*Remember* to substitute the UserName.
+*Remember* to replace *UserName* with the username assigned to you in the commands below.
 
 ....
 $ oc new-app --image-stream=php --code=https://github.com/your_github_username/bluegreen.git --name=scm-web-hooks
 ....
 
-*Step 3: Look at some of the created resources*
+*Step 3: Review the resources that were created*
 
 * Build configuration
 
@@ -105,7 +104,7 @@ NAME            CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 scm-web-hooks   172.30.71.191   <none>        8080/TCP   4m
 ....
 
-*Remember* to substitute the UserName.
+*Remember* to replace the *UserName*...
 
 ....
 $ oc expose service scm-web-hooks --hostname=scm-web-hooks.UserName.apps.osecloud.com
@@ -125,12 +124,12 @@ image:images/green_deployment.png[image]
 Part II
 ~~~~~~~
 
-At this point you have an application with one single replica running
-inside a docker container in OpenShift. We used the source retrieved
+At this point, you have an application with one single replica running
+inside a docker container in OpenShift. We used the source code retrieved
 from the git repository and layered it using a builder or image stream
 strategy; in this particular case, the php image stream.
 
-In this part of the Lab we will:
+For this portion of the Lab we will:
 
 * Create a web hook for the recently deployed application.
 * Make a small change to the application.
@@ -166,10 +165,10 @@ image:images/github_add_webhook.jpg[image]
 
 *Step 3: Redeploy the application*
 
-* Edit in your GitHub account the `image.php` file.
+* In your GitHub account, within the forked project repository, edit the `image.php` file.
 * One of the lines in line 9 or 10 should be commented out. Make a
 change so that the line that was previously commented out becomes active
-and pound the other one.
+and comment out the other one.
 * Commit the file.
 
 *Step 4: Monitor new deployment process*
@@ -190,9 +189,9 @@ $ oc logs build/the-new-build-process-name
 Summary
 ~~~~~~~
 
-We have shown in this Lab how simple it is to configure automatic
+In this Lab, we have demonstrated how simple it is to configure automatic
 deployments of applications using OpenShift and GitHub Web Hook
-triggers. It should be noted that OpenShift also supports Generic Web
+triggers. Additionally, it should be noted that OpenShift also supports Generic Web
 Hooks.
 
 link:0_toc.adoc[Table Of Contents]
