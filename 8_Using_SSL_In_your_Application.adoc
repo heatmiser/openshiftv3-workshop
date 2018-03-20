@@ -8,12 +8,12 @@ with the OpenShift Wildcard certificate.
 *Step 1: Switch to an existing project*
 
 For this exercise, we will use an application that we created before. We
-will be using the *myjbossapp-UserName* that you created in the previous
-labs. Make sure you are switched to that project by using the *oc
+will be using the *mycliproject-labuser01* created in a previous
+lab. Make sure to switch to that project by using the *oc
 project* command. *Remember* to substitute UserName.
 
 ....
-$ oc project myjbossapp-UserName
+$ oc project mycliproject-UserName
 ....
 
 *Step 2: View the routing config*
@@ -22,37 +22,38 @@ To view the routing config you will need to use the `oc get route`
 command
 
 ....
-$ oc get route/ks -o yaml
-
+$ oc get route/time -o yaml
 apiVersion: v1
 kind: Route
 metadata:
   annotations:
     openshift.io/host.generated: "true"
-  creationTimestamp: 2016-10-06T06:28:23Z
+  creationTimestamp: 2018-03-19T17:23:59Z
   labels:
-    app: ks
-  name: ks
-  namespace: myjbossapp-admin
-  resourceVersion: "33256"
-  selfLink: /oapi/v1/namespaces/myjbossapp-admin/routes/ks
-  uid: 14cf078c-8b8e-11e6-ba5b-080027782cf7
+    app: time
+  name: time
+  namespace: mycliproject-user01
+  resourceVersion: "1201793"
+  selfLink: /oapi/v1/namespaces/mycliproject-user01/routes/time
+  uid: 4fb0b1f0-2b9a-11e8-bf01-000d3a73a0a7
 spec:
-  host: ks-myjbossapp-UserName.apps.osecloud.com
+  host: time-mycliproject-user01.somedomain.com
   port:
     targetPort: 8080-tcp
   to:
     kind: Service
-    name: ks
+    name: time
     weight: 100
+  wildcardPolicy: None
 status:
   ingress:
   - conditions:
-    - lastTransitionTime: 2016-10-06T06:28:23Z
+    - lastTransitionTime: 2018-03-19T17:23:59Z
       status: "True"
       type: Admitted
-    host: ks-myjbossapp-UserName.apps.osecloud.com
-    routerName: router  
+    host: time-mycliproject-user01.somedomain.com
+    routerName: router
+    wildcardPolicy: None
 ....
 
 Note here that the `host:` is set to the FQDN that your application is
@@ -73,7 +74,7 @@ sometimes called SSL-offloading).
 Edit your routing configuration:
 
 ....
-oc edit route/ks
+oc edit route/time
 ....
 
 You are going to add `tls: termination: edge` right below the `host:`
