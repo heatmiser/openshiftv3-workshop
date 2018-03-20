@@ -118,7 +118,7 @@ scm-web-hooks   scm-web-hooks.UserName.apps.osecloud.com             scm-web-hoo
 `scm-web-hooks.UserName.apps.osecloud.com` and paste it in your browser.
 * You should see:
 
-image:images/green_deployment.png[image]
+image:images/blue_deployment.png[image]
 
 [[part-ii]]
 Part II
@@ -166,9 +166,12 @@ image:images/github_add_webhook.jpg[image]
 *Step 3: Redeploy the application*
 
 * In your GitHub account, within the forked project repository, edit the `image.php` file.
-* One of the lines in line 9 or 10 should be commented out. Make a
-change so that the line that was previously commented out becomes active
-and comment out the other one.
+* Comment out the imagefilledrectangle() line
+* Add the following after the line just commented out:
+....
+ImageFillToBorder($im, 0, 0, $white, $white);
+imageRectangle($im, 0, 0, 199, 199, $color);
+....
 * Commit the file.
 
 *Step 4: Monitor new deployment process*
@@ -184,6 +187,8 @@ $ oc get builds
 
 $ oc logs build/the-new-build-process-name
 ....
+
+After a new pod is deployed, refreshing the browser should reveal a blue square outline with a white center.
 
 [[summary]]
 Summary
