@@ -168,6 +168,12 @@ $ oc expose svc myapp
 route "myapp" exposed
 ....
 
-You can use the route to access the application using the URL.
+You can use the `oc get route` to determine the application URL and test via browser.
+
+....
+$ oc get route myapp
+NAME      HOST/PORT                                           PATH      SERVICES   PORT       TERMINATION   WILDCARD
+myapp     myapp-binarydeploy-UserName.somerndmdomname01.com             myapp      8080-tcp                 None
+....
 
 link:0_toc.adoc[Table Of Contents]
