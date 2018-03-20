@@ -35,7 +35,7 @@ exercise. Click on the *MySQL (Ephemeral)* template to select.
 
 image:images/mysql_ephemeral_template.png[image]
 
-Click *Next*. You will be taken to the mysql ephemeral template configuration screen.
+Click *Next*. You will be taken to the MySQL ephemeral template configuration screen.
 
 For *Add to Project*, select *consoleproject-UserName* from the drop down list. For
 parameters, use the following values...all other parameters, leave as is:
@@ -77,14 +77,14 @@ Under the `labels` section, add a new line entry `app: pricelist`
 
 Click *Save*
 
-image:images/mysql_pod_add_label.png[image]
+image:images/mysql_pod_with_label.png[image]
 
 *Note:* We now have an additional label `app=pricelist` defined for the MySQL database pod.
 
 *Step 3: Add a PHP frontend to connect to this database*
 
-In this step we will add a PHP frontend application that talks to
-recently created database. The code is available on github at
+In this step we will add a PHP frontend application that talks to our
+recently created database. The code is available on GitHub at
 https://github.com/RedHatWorkshops/php-pricelist
 
 Browse through the code in this repository. If you take a look at the
@@ -195,7 +195,7 @@ like this.
 
 image:images/application_create_screen.png[image]
 
-You can verify this by logging into the database using `oc rsh`, wherer `rsh` stands for 'remote shell'
+You can verify this by logging into the database using `oc rsh` in the CLI console, where `rsh` stands for 'remote shell'
 
 ....
 $ oc get pods
@@ -205,15 +205,14 @@ pricelist-1-build   0/1       Completed   0          13m
 pricelist-1-z55t2   1/1       Running     0          12m
 ....
 
-Here you'll notice that the database pod is called `mysql-1-rxnlp`. Login
-to this pod using `oc rsh`
+Above, notice that the database pod is called `mysql-1-rxnlp`. Substitue the name of your MySQL pod for the following commands. Login to this pod using `oc rsh`
 
 ....
 $ oc rsh mysql-1-rxnlp
 sh-4.2$
 ....
 
-Run `mysql -u root pricelist` to login and run the query.
+Execute `mysql -u root pricelist` to login, followed by executing `select * from products;` to perform the database query.
 ....
 sh-4.2$ mysql -u root pricelist
 Welcome to the MySQL monitor.  Commands end with ; or \g.
@@ -228,7 +227,7 @@ owners.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-mysql> SELECT * FROM products;
+mysql> select * from products;
 +----+-----------+----------------------------------------------+-------+-------------+---------------------+---------------------+
 | id | name      | description                                  | price | category_id | created             | modified            |
 +----+-----------+----------------------------------------------+-------+-------------+---------------------+---------------------+
