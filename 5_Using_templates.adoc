@@ -20,22 +20,25 @@ unique. Enter a *Display Name* and *Description* of your choice.
 Click the *Create* button to complete the project creation from the Web
 Console. This will accomplish the same job as `oc new-project` from CLI.
 
+Once created, while in the *My Projects* page, click on the name of the newly created `consoleproject-UserName` project.
+
 *Step 2: Create a MYSQL database using the template*
 
-Click on the *Add to Project -> Browse Catolog* button and you will be taken to the application creation screen shown
+Click on the *Browse Catolog* button and you will be taken to the application creation screen shown
 below, where you can select an image or template.
 
 image:images/template-add-to-project.png[image]
 
-Scroll down and click on the *Data Stores* session. Find the *MySQL (Ephemeral)*
-template from the list and click *Select*. Also notice the *MySQL
-(Persistent)* template...we will address persistent templates a little later in a different lab
-exercise.
+Scroll down the list and look for the *MySQL (Ephemeral)* template. Also notice that there is a *MySQL
+(Persistent)* template as well...we will address persistent templates a little later in a different lab
+exercise. Click on the *MySQL (Ephemeral)* template to select.
 
 image:images/mysql_ephemeral_template.png[image]
 
-You will be taken to the mysql ephemeral creation screen. Click edit
-parameters and edit the values to use the following values:
+Click *Next*. You will be taken to the MySQL ephemeral template configuration screen.
+
+For *Add to Project*, select *consoleproject-UserName* from the drop down list. For
+parameters, use the following values...all other parameters, leave as is:
 
 ....
 Database Service Name: mysql
@@ -44,56 +47,69 @@ MySQL Connection Password: pricelist
 MySQL Database Name: pricelist
 ....
 
-In the next section you can add the label:
+image:images/mysql_ephemeral_configuration.png[image]
 
-....
-app=pricelist
-....
+Click *Next*.
 
-Click the *Create* button.
+image:images/mysql_ephemeral_binding.png[image]
 
-image:images/mysql_ephemeral_creation.png[image]
+On the *Binding* screen, leave as `Do not bind at this time`. Click *Create*.
 
-Click *Go to overview*.
+image:images/mysql_ephemeral_results.png[image]
 
-image:images/mysql_pod_on_proj_details.png[image]
+On the *Results* dialog, click `Continue to the project overview`. Here you can see the status of deployed resources.
+
+image:images/mysql_pod_on_proj_overview.png[image]
 
 You will be taken back to the project overview page and soon you will see
 an image of a running pod.
 
-image:images/mysql_pod_on_proj_overview.png[image]
+Now we need to add a 'app=pricelist' label to the MySQL database pod. Here on the project overview page,
+under `Other Resources`, for the 'mysql,#1' deployment, notice over to the right where it displays `1 pod`. Click on `1 pod` 
+
+image:images/mysql_pod_edit_yaml.png[image]
+
+Select the `Actions` drop down and click on `Edit YAML`
+
+image:images/mysql_pod_add_label.png[image]
+
+Under the `labels` section, add a new line entry `app: pricelist`
+
+Click *Save*
+
+image:images/mysql_pod_with_label.png[image]
+
+*Note:* We now have an additional label `app=pricelist` defined for the MySQL database pod.
 
 *Step 3: Add a PHP frontend to connect to this database*
 
-In this step we will add a PHP frontend application that talks to
-recently created database. The code is available on github at
+In this step we will add a PHP frontend application that talks to our
+recently created database. The code is available on GitHub at
 https://github.com/RedHatWorkshops/php-pricelist
 
 Browse through the code in this repository. If you take a look at the
 link:https://raw.githubusercontent.com/RedHatWorkshops/php-pricelist/master/config/database.php[database configuration] file (`config/database.php`) you will see that
 it reads the values from environment varables.
 
-To add a frontend again click on *Add to Project -> Browse Catalog* to spin up a frontend
-application in the same *consoleproject-UserName*. It takes you to
-select image or template page and choose the *PHP* template under PHP
-apps.
+To add the frontend, in the top right click on *Add to Project -> Browse Catalog* to select the frontend
+application to deploy in the same *consoleproject-UserName* project. From the
+*Browse Catalog* page, click on the *PHP* template icon.
 
 image:images/php.png[image]
 
-Enter the following values for each parameters:
+Click, *Next*. In the Configuration dialog, for `Add to Project`, select the *consoleproject-UserName* project. Enter the following parameter values:
 
 ....
 * Name: pricelist
 * Git Repository URL: https://github.com/RedHatWorkshops/php-pricelist
 ....
 
-Click onto the link `Show advanced routing, build, and deployment
-options`, go to Deployment Configuration section and enter the
+Click the link `advanced options`, go to Deployment Configuration section and enter the
 following environment variables:
 
 image:images/dbtest_deployment_env.png[image]
 
-In the next section add a label:
+Scroll down to the Label section and verify that the following label is populated:
 
 ....
 * app=pricelist
@@ -103,7 +119,7 @@ Click *Create* to add this frontend application and connect it with the database
 
 image:images/cakephp_confirm.png[image]
 
-Click *Continue to overview*.
+Click *Continue to the project overview*.
 
 You will be taken back to the Project Overview page where eventually a new service entry should appear and exposed as a route. Since
 you labeled both frontend web and backend db as `app=pricelist` it will
@@ -111,26 +127,39 @@ show as one application
 
 You will also notice that a build starts running very soon. Once the
 build completes, the application image created from the source code will
-be uploaded to the docker repository.
+be uploaded to the local docker repository.
 
 image:images/console_project_overview.png[image]
 
-You can check the build logs using the following command:
+Over in your CLI console, you can check the status of the build. First, make sure to switch to the 
+*consoleproject-UserName* project:
+
+....
+$ oc project consoleproject-UserName
+Now using project "consoleproject-UserName on server "https://ocp.example.com:8443"...
+....
+
+Verify status of the build by viewing the log via the following command:
 
 ....
 $ oc logs build/pricelist-1
 Cloning "https://github.com/RedHatWorkshops/php-pricelist" ...
-	Commit:	2aa50442e8432c48beedc1503cd3d05dcb834515 (Added db connection)
-	Author:	Christian Hernandez <christian.hernandez@yahoo.com>
-	Date:	Thu Jun 29 10:52:43 2017 -0700
+	Commit:	b33ca2c77e66bbeb22d4d36c9b6554e47b407b8c (Update README.md)
+	Author:	Christian Hernandez <christianh814@users.noreply.github.com>
+	Date:	Mon Jan 22 17:53:52 2018 -0800
 ---> Installing application source...
-Pushing image docker-registry.default.svc:5000/consoleproject-christian/pricelist:latest ...
-Pushed 0/6 layers, 2% complete
-Pushed 1/6 layers, 26% complete
-Pushed 2/6 layers, 42% complete
-Pushed 3/6 layers, 56% complete
-Pushed 4/6 layers, 75% complete
-Pushed 5/6 layers, 97% complete
+=> sourcing 20-copy-config.sh ...
+---> 03:12:26     Processing additional arbitrary httpd configuration provided by s2i ...
+=> sourcing 00-documentroot.conf ...
+=> sourcing 50-mpm-tuning.conf ...
+=> sourcing 40-ssl-certs.sh ...
+Pushing image docker-registry.default.svc:5000/consoleproject-UserName/pricelist:latest ...
+Pushed 0/6 layers, 17% complete
+Pushed 1/6 layers, 21% complete
+Pushed 2/6 layers, 37% complete
+Pushed 3/6 layers, 54% complete
+Pushed 4/6 layers, 80% complete
+Pushed 5/6 layers, 100% complete
 Pushed 6/6 layers, 100% complete
 Push successful
 ....
@@ -142,9 +171,6 @@ console.
 
 Now use `curl` to run the database `bootstrap` script
 ....
-$ oc project
-Using project "consoleproject-Username" on server "https://ocp.example.com:8443".
-
 $ curl -k http://$(oc get route/pricelist -o jsonpath='{.spec.host}')/create_database.php
 Array
 (
@@ -155,7 +181,7 @@ Array
 
 ....
 
-Go ahead and open your application. The URL will be displayed by `oc get route`
+Go ahead and open your application. The URL to use will be displayed by `oc get route`
 
 ....
 $ oc get route
@@ -169,7 +195,7 @@ like this.
 
 image:images/application_create_screen.png[image]
 
-You can verify this by logging into the database using `oc rsh`
+You can verify this by logging into the database using `oc rsh` in the CLI console, where `rsh` stands for 'remote shell'
 
 ....
 $ oc get pods
@@ -179,15 +205,14 @@ pricelist-1-build   0/1       Completed   0          13m
 pricelist-1-z55t2   1/1       Running     0          12m
 ....
 
-Here you'll notice that the database pod is called `mysql-1-rxnlp`. Login
-to this pod using `oc rsh`
+Above, notice that the database pod is called `mysql-1-rxnlp`. Substitue the name of your MySQL pod for the following commands. Login to this pod using `oc rsh`
 
 ....
 $ oc rsh mysql-1-rxnlp
 sh-4.2$
 ....
 
-Run `mysql -u root pricelist` to login and run the query.
+Execute `mysql -u root pricelist` to login, followed by executing `select * from products;` to perform the database query.
 ....
 sh-4.2$ mysql -u root pricelist
 Welcome to the MySQL monitor.  Commands end with ; or \g.
@@ -202,7 +227,7 @@ owners.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-mysql> SELECT * FROM products;
+mysql> select * from products;
 +----+-----------+----------------------------------------------+-------+-------------+---------------------+---------------------+
 | id | name      | description                                  | price | category_id | created             | modified            |
 +----+-----------+----------------------------------------------+-------+-------------+---------------------+---------------------+
