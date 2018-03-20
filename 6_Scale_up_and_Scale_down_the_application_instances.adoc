@@ -161,10 +161,10 @@ Back on the web console, we should now see that there are 3
 instances running now
 image:images/scale_updown_overview_scaled.png[image]
 
-*Note:* You can also scale up and down from the web console by going to
-the project overview page and clicking twice on
+*Note:* As an alternative to the CLI console, you can also scale up and down from the web console by going to
+the project overview page and clicking on the up and down arrows.  Click twice on the  up arrow
 image:images/scale_up.jpg[image] right next to the pod count circle to
-add 2 more pods.
+add 2 more pods.  Ultimately, we need 3 pods specified at this point in the lab.
 
 Over on the command line, query the number of pods currently running:
 
@@ -239,7 +239,7 @@ oc scale --replicas=1 dc/time
 deploymentconfig "time" scaled
 ....
 
-Alternately, you can go to the project overview page and click on
+Alternately, you can go to the project overview page and click on the down arrow
 image:images/scale_down.jpg[image] twice to remove 2 running pods.
 
 Congratulations!! In this exercise we have covered scaling and stepped through the process of
