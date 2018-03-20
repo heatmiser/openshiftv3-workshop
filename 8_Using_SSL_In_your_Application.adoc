@@ -86,24 +86,34 @@ kind: Route
 metadata:
   annotations:
     openshift.io/host.generated: "true"
-  creationTimestamp: 2015-12-22T03:56:30Z
+  creationTimestamp: 2018-03-19T17:23:59Z
   labels:
-    app: ks
-  name: ks
-  namespace: myjbossapp-shchan
-  resourceVersion: "2903142"
-  selfLink: /oapi/v1/namespaces/myjbossapp-shchan/routes/ks
-  uid: fba5d1e6-a85f-11e5-be21-fa163ec58dad
+    app: time
+  name: time
+  namespace: mycliproject-user01
+  resourceVersion: "1342625"
+  selfLink: /oapi/v1/namespaces/mycliproject-user01/routes/time
+  uid: 4fb0b1f0-2b9a-11e8-bf01-000d3a73a0a7
 spec:
-  host: ks-myjbossapp-UserName.apps.osecloud.com
+  host: time-mycliproject-user01.somedomain.com
+  port:
+    targetPort: 8080-tcp
   tls:
     termination: edge
-  port:
-    targetPort: "8080"
   to:
     kind: Service
-    name: ks
-status: {}
+    name: time
+    weight: 100
+  wildcardPolicy: None
+status:
+  ingress:
+  - conditions:
+    - lastTransitionTime: 2018-03-19T17:23:59Z
+      status: "True"
+      type: Admitted
+    host: time-mycliproject-user01.somedomain.com
+    routerName: router
+    wildcardPolicy: None
 ....
 
 *Step 4: Verify*
