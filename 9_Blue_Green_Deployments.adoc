@@ -47,7 +47,7 @@ Image streams (oc new-app --image-stream=<image-stream> [--code=<source>])
 -----
 php
   Project: openshift
-  Tags:    5.5, 5.6, latest
+  Tags:    5.6, 7.0, latest
 ....
 
 *Step 3: Create an application*
@@ -73,13 +73,13 @@ NAME      TYPE      FROM          STATUS     STARTED              DURATION
 blue-1    Source    Git@afdc492   Complete   About a minute ago   1m8s
 ....
 
-Using the build name (listed above) of the recently created application, run:
+Using the build name of the recently created application (listed above), run:
 
 ....
-$ oc logs build/blue-1
+$ oc logs -f build/blue-1
 ....
 
-Once the build finishes, scan the resulting output until the image push is succesful:
+Wait until the image push is succesful:
 
 ....
 ...
@@ -132,7 +132,7 @@ $ oc expose service blue --hostname=bluegreen.UserName.<<DomainNameSuffix>> --na
 $ oc get route
 ....
 
-Copy the HOST/PORT and paste it in your browser. You should see
+Copy the URL location listed under HOST/PORT and paste it in your browser. You should see
 something similar to:
 
 image:images/blue_deployment.jpeg[image]
@@ -206,7 +206,11 @@ status: {}
 $ oc get route
 ....
 
-* Copy the HOST/PORT and paste it in your browser.
+* Either copy the HOST/PORT and paste it in your browser.
+
+-or-
+
+* If you still have the browser open on the version with the blue rectangle, click refresh or press the F5 key
 * The new version of the recently deployed
 application is displayed: a green rectangle.
 
@@ -218,8 +222,9 @@ You can route traffic to both services. This is what is typically referred to as
 
 *Step 1: Edit Your Route*
 
+In the OpenShift Web Console, switch to the *Blue Green Project*.
 Using the left-hand side navigation; click on *Applications -> Routes*. This will 
-bring you to the `Route` overview page.
+bring you to the `Route` overview page.   
 
 image:images/bg-routes-page.png[image]
 
@@ -237,7 +242,7 @@ Set the weight to 80% on blue and 20% on green. The majority of the traffic will
 
 image:images/bg-5050-split.png[image]
 
-Once you click on *Save*; you should see this on the Route Overview page.
+Once you click on *Save*; the Route Overview page should look similar to this, except for the traffic weighting percentages.
 
 image:images/bg-route-split-overview.png[image]
 
@@ -256,7 +261,7 @@ oc annotate route/bluegreen haproxy.router.openshift.io/balance=roundrobin
 oc annotate route/bluegreen haproxy.router.openshift.io/disable_cookies=true
 ....
 
-
+Now when refreshing the browser, we should see 1 green rectangle and 4 blue rectangles for every 5 refreshes.
 
 [[summary]]
 Summary
