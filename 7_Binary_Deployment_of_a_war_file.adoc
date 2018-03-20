@@ -2,14 +2,14 @@
 Binary Deployment of a war file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the past you have seen how OpenShift can take your existing java
-code, build it and deploy the resultant docker image as an application.
-OpenShift S2I process includes an assemble script that copies the source
+OpenShift includes Source2image (S2I) functionality to take your existing application
+code, determine the language type, build the application, package it into a docker image and then deploy the resultant docker image.
+In the case of a java application, the OpenShift S2I process includes an assemble script that copies source
 code from a git repository, invokes a maven build, places the resultant
 war file in the deployments folder, builds a new application image and
 pushes that image into the registry.
 
-But how about if you want OpenShift to deploy a war file that you built
+But what if you want OpenShift to deploy a war file that you have previously built
 yourself?
 
 In this exercise you will learn to deploy a war file. We will assume
@@ -32,11 +32,8 @@ You can also create a modules directory at the same level as
 files. For example:
 
 ....
-mkdir modules
-cd modules
-mkdir cfg
-cd cfg
-touch config-1.cfg config-2.cfg
+mkdir -p modules/cfg
+touch modules/cfg/config-1.cfg modules/cfg/config-2.cfg
 ....
 
 *Step 1: Create war file*
@@ -44,11 +41,14 @@ touch config-1.cfg config-2.cfg
 Create a war file and place it in deployments directory.
 
 As an example here we have a WAR file called `petstore.war` that we
-renamed to `ROOT.war` and placed in the deployments folder (you can
-download this example WAR file
-https://raw.githubusercontent.com/RedHatWorkshops/ps/master/deployments/ROOT.war[here]).
+renamed to `ROOT.war` and placed in the deployments folder (download this example WAR file
+https://raw.githubusercontent.com/RedHatWorkshops/ps/master/deployments/ROOT.war[here]) and place it
+in the deployments directory.
 
 ....
+
+$ wget https://raw.githubusercontent.com/RedHatWorkshops/ps/master/deployments/ROOT.war -P ./deployments/
+
 $ ls -lR
 
 total 0
@@ -63,7 +63,7 @@ total 12024
 *Step 2: Using builder image*
 
 Create a new build using the builder image of your choice. Here we are
-using JBoss EWS (tomcat 8) image. The flag `binary=true` indicates that
+using JBoss EWS 3.0 (tomcat 8) image version 1.3. The flag `binary=true` indicates that
 this build will use the binary content instead of the url to the source
 code.
 
@@ -71,9 +71,9 @@ Here I am naming my application as *myapp*. So all the artifacts will
 get the name *myapp*.
 
 ....
-$ oc new-build --image-stream=jboss-webserver30-tomcat8-openshift --binary=true --name=myapp
+$ oc new-build --image-stream=jboss-webserver30-tomcat8-openshift:1.3 --binary=true --name=myapp
 
---> Found image 58272fb (11 weeks old) in image stream "jboss-webserver30-tomcat8-openshift" in project "openshift" under tag "latest" for "jboss-webserver30-tomcat8-openshift"
+--> Found image 58272fb (11 weeks old) in image stream "jboss-webserver30-tomcat8-openshift" in project "openshift" under tag "1.3" for "jboss-webserver30-tomcat8-openshift:1.3"
 
     JBoss Web Server 3.0
     --------------------
@@ -95,8 +95,8 @@ $ oc new-build --image-stream=jboss-webserver30-tomcat8-openshift --binary=true 
 *Step 3: Executing the build*
 
 Start the build by uploading the contents of your `deployments`
-directory. Make sure you are in the parent folder where you created the
-`deployments` folder inside previously. Remember the war file is in the
+directory. Make sure your current directory location is where you created the
+`deployments` folder previously. Remember the war file is in the
 `deployments` folder. The jboss-ews builder image knows to copy the
 contents of the `deployments` folder to the `deployments` directory and
 then builds the application image.
@@ -108,10 +108,10 @@ Uploading directory "." as binary input for the build ...
 build "myapp-1" started
 ....
 
-You can check the build logs by executing:
+You can "follow" the build log output by including the `-f` command switch with the `oc logs` command. Execute the following to do so:
 
 ....
-$ oc logs myapp-1-build
+$ oc logs -f myapp-1-build
 
 Receiving source from STDIN as archive ...
 
