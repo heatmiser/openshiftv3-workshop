@@ -12,6 +12,7 @@ do so before commencing with this Lab.
 
 *Step 1: Check application health status*
 
+* Your OC CLI terminal session should still be configured for the `scm-web-hooks-UserName` project 
 * Run:
 
 ....
@@ -41,7 +42,7 @@ scm-web-hooks   2          1         1         config,image(scm-web-hooks:latest
 * The latest and active version for the application is *2*
 * If we display the application in the browser we see:
 
-image:images/blue_app.jpg[image]
+image:images/blue_whiteCenter_app.png[image]
 
 *Step 2: Rollback the application*
 
@@ -62,10 +63,10 @@ NAME            REVISION   DESIRED   CURRENT   TRIGGERED BY
 scm-web-hooks   3          1         1         config,image(scm-web-hooks:latest)
 ....
 
-* OpenShift has rolled back the application to version 1 and created
+* OpenShift has rolled back the application by deploying version 1 (labeled it with an incremented revision of 3) and created
 a new build configuration.
 * Refreshing the application in the browser now displays:
 
-image:images/green_app.jpg[image]
+image:images/blue_app.jpg[image]
 
 link:0_toc.adoc[Table Of Contents]
