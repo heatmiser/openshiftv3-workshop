@@ -27,7 +27,7 @@ $ oc new-project scm-web-hooks-UserName --display-name="Test WebHooks"
 
 * We will fork the repository from the previous lab on GitHub.
 
-*Remember* to replace *UserName* with the username assigned to you in the commands below.
+*Remember* to replace *your_github_username* with your GitHub account username.
 
 ....
 $ oc new-app --image-stream=php --code=https://github.com/your_github_username/bluegreen.git --name=scm-web-hooks
@@ -65,7 +65,7 @@ $ oc get rc
 $ oc get route
 ....
 
-Notice that there is no route created yet for this application.
+Notice that there is no replication-controller or route for this application at the moment.
 
 * Show the builds in progress (Running)
 
@@ -84,14 +84,15 @@ $ oc logs build/scm-web-hooks-1
 The build should finish similar to:
 
 ....
-Pushing image 172.30.89.28:5000/scm-web-hooks-admin/scm-web-hooks:latest ...
-Pushed 0/5 layers, 2% complete
-Pushed 1/5 layers, 22% complete
-Pushed 2/5 layers, 44% complete
-Pushed 3/5 layers, 70% complete
-Pushed 3/5 layers, 100% complete
-Pushed 4/5 layers, 100% complete
-Pushed 5/5 layers, 100% complete
+...
+Pushing image docker-registry.default.svc:5000/scm-web-hooks-UserName/scm-web-hooks:latest ...
+Pushed 0/6 layers, 2% complete
+Pushed 1/6 layers, 23% complete
+Pushed 2/6 layers, 43% complete
+Pushed 3/6 layers, 60% complete
+Pushed 4/6 layers, 77% complete
+Pushed 5/6 layers, 95% complete
+Pushed 6/6 layers, 100% complete
 Push successful
 ....
 
@@ -114,11 +115,16 @@ scm-web-hooks   scm-web-hooks.UserName.apps.osecloud.com             scm-web-hoo
 
 *Step 5: Test the application*
 
-* Use the newly created route, in the above case
-`scm-web-hooks.UserName.apps.osecloud.com` and paste it in your browser.
-* You should see:
+* If desired verify via `oc get route`
+....
+$ oc get route
+NAME            HOST/PORT                                      PATH      SERVICES        PORT       TERMINATION   WILDCARD
+scm-web-hooks   scm-web-hooks.UserName.apps.osecloud.com                 scm-web-hooks   8080-tcp                 None
+....
 
-image:images/blue_deployment.png[image]
+* Use the newly created route URL via browser, you should see:
+
+image:images/blue_deployment.jpeg[image]
 
 [[part-ii]]
 Part II
@@ -138,7 +144,7 @@ For this portion of the Lab we will:
 *Step 1: Retrieve the OpenShift Web Hook URL*
 
 * Navigate to the OpenShift Web console and login.
-* Select your *Test WebHooks* project, and click *Builds* and then
+* Select your *Test WebHooks* project, and using the *Builds* menu on the left, click
 *Builds*.
 * Click onto the build name from the list. You should have just one in
 this case.
