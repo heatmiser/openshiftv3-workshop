@@ -66,25 +66,25 @@ Execute the describe subcommand against this image stream to list the full image
 ....
 $ oc describe is welcome-php
 Name:			welcome-php
-Namespace:		development-UserName
-Created:		7 minutes ago
+Namespace:		development-labuser01
+Created:		2 minutes ago
 Labels:			app=welcome-php
 Annotations:		openshift.io/generated-by=OpenShiftNewApp
-			openshift.io/image.dockerRepositoryCheck=2017-08-21T23:24:26Z
 Docker Pull Spec:	docker-registry.default.svc:5000/development-UserName/welcome-php
+Image Lookup:		local=false
 Unique Images:		1
 Tags:			1
 
 latest
-  pushed image
+  no spec tag
 
-  * docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
+  * docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:4c8dc0f3ac62f8bab8b008b4fa85bf125ed1cc4b2fec93279bcd69b5e77f4ee7
       4 minutes ago
 
 ....
 
 In the above example, the full image Id is:
-`docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf`
+`docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:4c8dc0f3ac62f8bab8b008b4fa85bf125ed1cc4b2fec93279bcd69b5e77f4ee7`
 
 Let's assume that this container image is good and is ready to promote
 to QA. Tag this container image using the `oc tag` command.
@@ -99,10 +99,10 @@ Check the commands below and replace the values where needed:
 
 ....
 $ oc tag \
-docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf \
+docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:4c8dc0f3ac62f8bab8b008b4fa85bf125ed1cc4b2fec93279bcd69b5e77f4ee7 \
 development-UserName/welcome-php:promote-qa
 
-Tag welcome-php:promote-qa set to docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf.
+Tag welcome-php:promote-qa set to docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:4c8dc0f3ac62f8bab8b008b4fa85bf125ed1cc4b2fec93279bcd69b5e77f4ee7.
 
 
 $ oc describe is welcome-php
@@ -113,26 +113,27 @@ Labels:			app=welcome-php
 Annotations:		openshift.io/generated-by=OpenShiftNewApp
 			openshift.io/image.dockerRepositoryCheck=2017-08-21T23:24:26Z
 Docker Pull Spec:	docker-registry.default.svc:5000/development-UserName/welcome-php
+Image Lookup:		local=false
 Unique Images:		1
 Tags:			2
 
 latest
-  pushed image
+  no spec tag
 
-  * docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
+  * docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:4c8dc0f3ac62f8bab8b008b4fa85bf125ed1cc4b2fec93279bcd69b5e77f4ee7
       2 minutes ago
 
 promote-qa
-  tagged from docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
+  tagged from docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:4c8dc0f3ac62f8bab8b008b4fa85bf125ed1cc4b2fec93279bcd69b5e77f4ee7
 
-  * docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
+  * docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:4c8dc0f3ac62f8bab8b008b4fa85bf125ed1cc4b2fec93279bcd69b5e77f4ee7
 ....
 
 *Step 5: Deploy the application to QA*
 
 Now switch over to the QA project and deploy the container image
 that was tagged in Development. Also, expose the service to create a route for
-this project and *remember* to substitute username.
+this project and *remember* to substitute *UserName*.
 
 ....
 oc project testing-UserName
