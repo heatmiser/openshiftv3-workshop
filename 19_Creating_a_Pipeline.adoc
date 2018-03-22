@@ -22,8 +22,7 @@ Click on `Add to Project` on the Web console, and navigate to
 
 In the text box with heading
 `Upload file by dragging & dropping, selecting it, or pasting from the clipboard`,
-copy and paste the Build Configuration the following Build Configuration
-and press on `Create`.
+copy and paste the following Build Configuration.  Make sure to go through the text and replace *UserName* with your assigned username.  After double-checking your edits, click `Create`.
 
 ....
 apiVersion: v1
@@ -152,7 +151,7 @@ the application deployed and running with two pods. In the left hand menu, selec
 scroll down and click `Create`.
 image:images/welcome-php-dev-route.png[image]
 
-Click on the URL under `hostname` for the newly created route.  The Welcome PHP app is displayed.
+Click on the URL under `Hostname` for the newly created route.  The Welcome PHP app is displayed.
 image:images/welcome-php-dev-app.png[image]
 
 Enter in some information and click `Submit`.  The newly typed information should be displayed.
