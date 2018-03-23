@@ -66,8 +66,8 @@ $ oc new-app redhatworkshops/welcome-php --name=welcome
     Run 'oc status' to view your app.
 ....
 
-The above command uses the docker image to deploy a docker container in
-a pod. Quickly run `oc get pods` again...you will notice that a deployer
+The above command uses the docker image `redhatworkshops/welcome-php` and deploys the image as a container in
+a pod. Quickly run `oc get pods`  ...if you are fast enough, you will notice that a deployer
 pod runs and it starts an application pod as shown below.
 
 ....
