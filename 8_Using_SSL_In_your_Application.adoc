@@ -77,9 +77,12 @@ Edit your routing configuration:
 oc edit route/time
 ....
 
-You are going to add `tls: termination: edge` right below the `host:`
-section. It should look something like this.
-
+Under the `spec:` section, you are going to add...
+....
+  tls:
+    termination: edge
+....
+...between the `port:` and `to:` entries. Pay close attention to the spacing. It should look something like this:
 ....
 apiVersion: v1
 kind: Route
@@ -118,7 +121,16 @@ status:
 
 *Step 4: Verify*
 
-Verify by visiting your page by using the `https://` URI
+Verify by visiting the time application via `https://` URI
+
+*Note:* the OpenShift environment for these labs is utilizing a self-signed SSL certificate and as such,
+any http/https communications is going to require:
+
+* Accepting the certificate when accessing the https URL
+* Utilizing the `--insecure` command switch when accessing the https URL via `curl`, ie:
+
+            `curl --insecure https://time-mycliproject-user01.somedomain.com`
+
 
 Congratulations!! In this exercise you have learned about service SSL
 from your application
