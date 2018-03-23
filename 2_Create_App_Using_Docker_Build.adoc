@@ -19,11 +19,10 @@ $ oc project mycliproject-UserName
 
 *Step 2: Create an application that utilizes a Dockerfile*
 
-For this lab, we will use a project that has a Dockerfile present in a source code
-repository. We will use a simple project on GitHub
+For this lab, we will utilize code from a source code repository on GitHub that has a Dockerfile present
 (https://github.com/RedHatWorkshops/time). The `rhel` folder from this GitHub
-project is built starting with `rhel7` as the base image
-defined in Dockerfile. Review the Dockerfile for this project. It
+repo is built starting with `rhel7` as the base image
+defined in Dockerfile. Review the Dockerfile. It
 starts off with the `registry.access.redhat.com/rhel7` image. Next, it copies the
 source code, which in this case is a simple `init.sh` file and then exposes port `8080`.
 Review the `init.sh` script, which simply displays the current datetime. There is
