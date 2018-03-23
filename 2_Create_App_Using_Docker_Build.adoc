@@ -8,9 +8,10 @@ application docker image for you.
 
 *Step 1: Create a project or use an existing project*
 
-We will create a new project based on what you have learned in the previous
-lab. Execute the following command to verify that the project exists. *Remember* to
-replace *UserName* with the username assigned to you in the commands below..
+We will use the project from the previous lab. Execute the following command to verify
+that the project exists. If it does not exist, use `oc new-project <project_name>` to create the project.
+*Remember* to replace *UserName* with the username assigned
+to you in the commands below...
 
 ....
 $ oc project mycliproject-UserName
