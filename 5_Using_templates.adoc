@@ -100,8 +100,8 @@ image:images/php.png[image]
 Click, *Next*. In the Configuration dialog, for `Add to Project`, select the *consoleproject-UserName* project. Enter the following parameter values:
 
 ....
-* Name: pricelist
-* Git Repository URL: https://github.com/RedHatWorkshops/php-pricelist
+* Application Name: pricelist
+* Git Repository: https://github.com/RedHatWorkshops/php-pricelist
 ....
 
 Click the link `advanced options`, go to Deployment Configuration section and enter the
