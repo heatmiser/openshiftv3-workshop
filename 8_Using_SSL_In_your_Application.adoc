@@ -129,8 +129,9 @@ any http/https communications is going to require:
 * Accepting the certificate when accessing the https URL
 * Utilizing the `--insecure` command switch when accessing the https URL via `curl`, ie:
 
-            `curl --insecure https://time-mycliproject-user01.somedomain.com`
-
+....
+    $ curl --insecure https://time-mycliproject-user01.somedomain.com
+....
 
 Congratulations!! In this exercise you have learned about service SSL
 from your application
