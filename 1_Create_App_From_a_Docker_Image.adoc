@@ -172,7 +172,10 @@ pod "welcome-1-ynedb" deleted
 ....
 
 Notice that the imagestream for the application, the deploymentconfig,
-the service and the route have all been deleted.
+the service and the route have all been deleted.  If you would like to delete all components, as well
+as the project itself, then the following command will delete the entire project:
+
+`oc delete project <project_name>`
 
 If desired, run `oc get all` again to verify that the project is empty.
 
