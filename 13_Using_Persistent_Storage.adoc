@@ -103,14 +103,13 @@ Here you need to enter the following
 ----
 * Storage Class: <provided by your instructor>
 * Name: myclaim
-* Access Mode: Shared Access (RWX)
+* Access Mode: <provided by your instructor>
 * Size: 1 GiB
 ----
 
 The `Storage Class` will be given to you by your instructor. The `Name` must be
-unique to the project namespace. The `Access Mode` means "how many apps/pods can access
-this storage". For shared storage, you'd choose `Shared Access (RWX)` (for File based storage like NFS); in this instance we are choosing block storage ie `Singe User (RWO)`. The `Size`
-is set to `1 GB` just for testing.
+unique to the project namespace. The `Access Mode` selects "single app/pod access vs. multi-app/multi-pod access for this storage". `Single User (RWO)` mode is typically utilized for block-based storage. For shared storage, you'd choose `Shared Access (RWX)` (for File based storage like NFS, for example).  The `Size`
+is set to `1 GB` since this is for simple testing.
 
 Once you click on "Create" it will go from the `Pending` stage to `Bound`. You can see
 this on the command-line by checking your `pvc` (which stands for Persistant
