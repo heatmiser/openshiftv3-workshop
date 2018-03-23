@@ -218,7 +218,7 @@ application is displayed: a green rectangle.
 Part III
 ~~~~~~~
 
-You can route traffic to both services. This is what is typically referred to as a "canary deployment". 
+You can route traffic to both services. This is permits a multi-version application deployment, typically referred to as a "canary deployment". A small percentage of traffic is routed to the new application version, with the remainder continuing to be routed to the current application version.  This allows testing of the new application version in production, while continuing to service the majority of traffic via the current application version.
 
 *Step 1: Edit Your Route*
 
@@ -238,7 +238,7 @@ Next, tick on `Split traffic across multiple services`
 
 image:images/bg-slipt-traffic.png[image]
 
-Set the weight to 80% on blue and 20% on green. The majority of the traffic will be passed to the green application, with the rest passed to the blue application.
+Set the weight to 80% on blue and 20% on green. The majority of the traffic will be passed to the blue application, with the remainder passed to the green application.
 
 image:images/bg-5050-split.png[image]
 
