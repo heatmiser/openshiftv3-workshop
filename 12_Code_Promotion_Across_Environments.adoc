@@ -27,7 +27,7 @@ $ oc new-project testing-UserName
 
 *Step 2: Provide ImagePuller Access to the QA Project from Development project*
 
-The following command will allow the QA project to be able to pull the container images from the Development project.
+The following command will allow the QA project to be able to pull the container images from the Development project. *Remember* to replace *UserName*...
 
 ....
 $ oc policy add-role-to-group system:image-puller system:serviceaccounts:testing-UserName -n development-UserName
@@ -87,9 +87,7 @@ In the above example, the full image Id is:
 `docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:4c8dc0f3ac62f8bab8b008b4fa85bf125ed1cc4b2fec93279bcd69b5e77f4ee7`
 
 Let's assume that this container image is good and is ready to promote
-to QA. Tag this container image using the `oc tag` command.
-
-The format is:
+to QA. Tag this container image using the `oc tag` command, subbing in the full image Id, and remembering to sub in the *UserName*. The format is:
 
 ....
 oc tag FullImageId development-UserName/myapp:promote-qa
