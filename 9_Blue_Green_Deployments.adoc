@@ -218,7 +218,7 @@ application is displayed: a green rectangle.
 Part III
 ~~~~~~~
 
-You can route traffic to both services. This is permits a multi-version application deployment, typically referred to as a "canary deployment". A small percentage of traffic is routed to the new application version, with the remainder continuing to be routed to the current application version.  This allows testing of the new application version in production, while continuing to service the majority of traffic via the current application version.
+You can route traffic to both services. This permits a multi-version application deployment, typically referred to as a "canary deployment". A small percentage of traffic is routed to the new application version, with the remainder continuing to be routed to the current application version.  This allows testing of the new application version in production, while continuing to service the majority of traffic via the current application version.
 
 *Step 1: Edit Your Route*
 
